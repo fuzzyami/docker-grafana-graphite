@@ -1,5 +1,17 @@
 version: '2'
 services:
+  telegraf-forwarder:
+    image: kinecosystem/telegraf-forwarder:latest
+    ports:
+      - '8086:8086'
+    links:
+     - "grafana_graphite:grafana_graphite"
+    restart: on-failure
+    logging:
+      driver: json-file
+      options:
+        max-size: 100m
+        max-file: "3"
   grafana_graphite:
     build: .
     image: kamon/grafana_graphite
